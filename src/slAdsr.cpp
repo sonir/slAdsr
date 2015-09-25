@@ -109,7 +109,7 @@ void slAdsr::calcRatio(adsr_t *a){
 
 float slAdsr::getCurrent(){
 
-    return current;
+    return update();
 
 }
 

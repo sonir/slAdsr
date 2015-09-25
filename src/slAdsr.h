@@ -31,6 +31,7 @@ class slAdsr {
         slAdsr(){
             
             
+            
         }
     
         void setup(adsr_t a);
