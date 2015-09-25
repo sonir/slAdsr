@@ -4,8 +4,6 @@
 #include <math.h>
 #include "slChrono.h"
 
-
-
 typedef enum { ATK, DCY, SUS, REL, FINISHED } region_e;
 
 typedef struct adsr_t {
@@ -40,6 +38,7 @@ class slAdsr {
         void bang();
         void stop();
         void calcRatio(adsr_t *a);
+        float current();
         adsr_posi_t distributer(float t);
 
         bool exponential = false;
@@ -53,6 +52,7 @@ class slAdsr {
         float duration;
         float release;
         int total_duration;
+        float current;
 
     
 };

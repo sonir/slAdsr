@@ -7,7 +7,7 @@ void slAdsr::setup(adsr_t a){
 
     ms = a;
     calcRatio(&a);
-    
+    current = 0.0f;
     
     init = true;
     
@@ -15,7 +15,12 @@ void slAdsr::setup(adsr_t a){
 
 float slAdsr::update(){
     
-    if(!init)return 0.0f; //Ignore involing before init.
+    if(!init){
+        
+        current = 0.0f; //Ignore involing before init.
+        return current;
+        
+    }
     
     float now = chrono.elapsed_ms()/(double)total_duration;
     adsr_posi_t position = distributer(now);
@@ -40,27 +45,32 @@ float slAdsr::update(){
     switch(position.region){
             
         case ATK:
-            return point;
+            current = point;
+            return current;
             break;
 
         case DCY:
             // ((1-S) * (1-Dratio)) + S
             fval = ((1.0f-duration)*(1-point))+ms.sustain;
-            return limit(fval);
+            current = limit(fval);
+            return current;
             break;
 
         case SUS:
-            return ms.sustain;
+            current = ms.sustain;
+            return current;
             break;
 
         case REL:
             // S * (1-release)
             fval =  ms.sustain * (1-point);
-            return limit(fval);
+            current = limit(fval);
+            return current;
             break;
             
         case FINISHED:
-            return 0.0;
+            current = 0.0;
+            return current;
             break;
             
         default:
@@ -94,6 +104,13 @@ void slAdsr::calcRatio(adsr_t *a){
     duration = (float)a->duration/total_duration;
     release = (float)a->release/total_duration;
     
+}
+
+
+float slAdsr::current(){
+
+    return float;
+
 }
 
 
