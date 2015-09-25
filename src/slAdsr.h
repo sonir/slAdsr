@@ -38,7 +38,7 @@ class slAdsr {
         void bang();
         void stop();
         void calcRatio(adsr_t *a);
-        float current();
+        float getCurrent();
         adsr_posi_t distributer(float t);
 
         bool exponential = false;
